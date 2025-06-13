@@ -94,7 +94,9 @@ class _ListaContraseasWidgetState extends State<ListaContraseasWidget> {
         body: SafeArea(
           top: true,
           child: FutureBuilder<ApiCallResponse>(
-            future: GuardadoContrasenasCall.call(),
+            future: MostrarContraCall.call(
+              usuarioId: 1,
+            ),
             builder: (context, snapshot) {
               // Customize what your widget looks like when it's loading.
               if (!snapshot.hasData) {
@@ -110,160 +112,49 @@ class _ListaContraseasWidgetState extends State<ListaContraseasWidget> {
                   ),
                 );
               }
-              final columnGuardadoContrasenasResponse = snapshot.data!;
+              final columnMostrarContraResponse = snapshot.data!;
 
-              return Builder(
-                builder: (context) {
-                  final contra = getJsonField(
-                    columnGuardadoContrasenasResponse.jsonBody,
-                    r'''$''',
-                  ).toList();
-
-                  return Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: List.generate(contra.length, (contraIndex) {
-                      final contraItem = contra[contraIndex];
-                      return Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 0.0, 16.0, 0.0),
-                        child: Container(
-                          width: MediaQuery.sizeOf(context).width * 1.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            borderRadius: BorderRadius.circular(16.0),
-                            border: Border.all(
-                              color: FlutterFlowTheme.of(context).lineColor,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 16.0, 0.0, 12.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 0.0, 0.0),
-                                      child: Text(
-                                        'Cifradas',
-                                        style: FlutterFlowTheme.of(context)
-                                            .headlineSmall
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .headlineSmallFamily,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts:
-                                                  !FlutterFlowTheme.of(context)
-                                                      .headlineSmallIsCustom,
-                                            ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12.0, 12.0, 12.0, 0.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          if (responsiveVisibility(
-                                            context: context,
-                                            phone: false,
-                                          ))
-                                            Expanded(
-                                              child: Text(
-                                                'Last Active',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodySmall
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodySmallFamily,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodySmallIsCustom,
-                                                        ),
-                                              ),
-                                            ),
-                                          if (responsiveVisibility(
-                                            context: context,
-                                            phone: false,
-                                            tablet: false,
-                                          ))
-                                            Expanded(
-                                              child: Text(
-                                                'Date Created',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodySmall
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodySmallFamily,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts:
-                                                              !FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodySmallIsCustom,
-                                                        ),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                alignment: AlignmentDirectional(0.0, 0.0),
-                                child: FutureBuilder<ApiCallResponse>(
-                                  future: GuardadoContrasenasCall.call(),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50.0,
-                                          height: 50.0,
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    final listViewGuardadoContrasenasResponse =
-                                        snapshot.data!;
-
-                                    return ListView(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      children: [],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-                  );
-                },
+              return Column(
+                children: [
+                  SwitchListTile(
+                    title: Text('Mostrar descifradas'),
+                    value: _model.showDecrypted,
+                    onChanged: (val) => setState(() => _model.showDecrypted = val),
+                  ),
+                  Expanded(
+                    child: Builder(
+                      builder: (context) {
+                        final contra = getJsonField(
+                          columnMostrarContraResponse.jsonBody,
+                          r'$'
+                        ).toList();
+                        return ListView.builder(
+                          itemCount: contra.length,
+                          itemBuilder: (context, contraIndex) {
+                            final contraItem = contra[contraIndex];
+                            final servicio = getJsonField(
+                              contraItem,
+                              r'$["servicio"]',
+                            ).toString();
+                            final cifrada = getJsonField(
+                              contraItem,
+                              r'$["clave_cifrada"]',
+                            ).toString();
+                            final descifrada = getJsonField(
+                              contraItem,
+                              r'$["clave_descifrada"]',
+                            ).toString();
+                            final texto = _model.showDecrypted ? descifrada : cifrada;
+                            return ListTile(
+                              title: Text(servicio),
+                              subtitle: Text(texto),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
               );
             },
           ),
