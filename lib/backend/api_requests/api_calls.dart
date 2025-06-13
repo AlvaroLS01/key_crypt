@@ -11,13 +11,13 @@ class GuardadoContrasenasCall {
   static Future<ApiCallResponse> call({
     int? usuarioId,
     String? servicio = '',
-    String? clavePlana = '',
+    String? clave = '',
   }) async {
     final ffApiRequestBody = '''
 {
   "usuario_id": "[usuario_id]",
   "servicio": "[servicio]",
-  "clave_plana": "[clave_plana]"
+  "clave": "[clave]"
 }
 ''';
     return ApiManager.instance.makeApiCall(

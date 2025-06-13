@@ -14,7 +14,8 @@ Future<bool> loginUsuario(String usuario, String contrasena) async {
     Uri.parse('http://192.168.1.136:8000/login'),
     headers: {'Content-Type': 'application/json'},
     body: json.encode({
-      'usuario': usuario, // 👈 CORREGIDO
+      // el backend espera la clave "email"
+      'email': usuario,
       'contrasena': contrasena,
     }),
   );
