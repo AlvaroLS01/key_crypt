@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "75223222314",
+    "project_id": "keycrypt-454ed",
+    "storage_bucket": "keycrypt-454ed.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75223222314:android:f441c903de7b22f3f35b53",
+        "android_client_info": {
+          "package_name": "com.mycompany.dashboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfS_ZZRf5xYdJDr95Xy3AHn5hxhy8T2Pw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
