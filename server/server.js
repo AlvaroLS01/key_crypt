@@ -78,7 +78,7 @@ app.post('/passwords', async (req, res) => {
     const claveCifrada = cifrarTexto(clave);
 
     await pool.query(
-      'INSERT INTO contrasenas (usuario_id, servicio, clave_cifrada) VALUES (?, ?, ?)',
+      'INSERT INTO contraseñas (usuario_id, servicio, clave_cifrada) VALUES (?, ?, ?)',
       [usuario_id, servicio, claveCifrada]
     );
 
@@ -95,7 +95,7 @@ app.get('/passwords', async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      'SELECT id, servicio, clave_cifrada FROM contrasenas WHERE usuario_id = ?',
+      'SELECT id, servicio, clave_cifrada FROM contraseñas WHERE usuario_id = ?',
       [usuarioId]
     );
 
