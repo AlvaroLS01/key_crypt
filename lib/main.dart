@@ -22,10 +22,7 @@ void main() async {
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => appState,
-    child: MyApp(),
-  ));
+  runApp(ChangeNotifierProvider(create: (context) => appState, child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -40,9 +37,9 @@ class MyApp extends StatefulWidget {
 class MyAppScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-      };
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }
 
 class _MyAppState extends State<MyApp> {
@@ -61,10 +58,13 @@ class _MyAppState extends State<MyApp> {
     return matchList.uri.toString();
   }
 
-  List<String> getRouteStack() =>
-      _router.routerDelegate.currentConfiguration.matches
-          .map((e) => getRoute(e))
-          .toList();
+  List<String> getRouteStack() => _router
+      .routerDelegate
+      .currentConfiguration
+      .matches
+      .whereType<RouteMatch>()
+      .map((e) => getRoute(e))
+      .toList();
 
   bool displaySplashImage = true;
 
@@ -75,8 +75,10 @@ class _MyAppState extends State<MyApp> {
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
 
-    Future.delayed(Duration(milliseconds: 1000),
-        () => safeSetState(() => _appStateNotifier.stopShowingSplashImage()));
+    Future.delayed(
+      Duration(milliseconds: 1000),
+      () => safeSetState(() => _appStateNotifier.stopShowingSplashImage()),
+    );
   }
 
   void setLocale(String language) {
@@ -84,9 +86,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setThemeMode(ThemeMode mode) => safeSetState(() {
-        _themeMode = mode;
-        FlutterFlowTheme.saveThemeMode(mode);
-      });
+    _themeMode = mode;
+    FlutterFlowTheme.saveThemeMode(mode);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -103,17 +105,9 @@ class _MyAppState extends State<MyApp> {
         FallbackCupertinoLocalizationDelegate(),
       ],
       locale: _locale,
-      supportedLocales: const [
-        Locale('es'),
-      ],
-      theme: ThemeData(
-        brightness: Brightness.light,
-        useMaterial3: false,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        useMaterial3: false,
-      ),
+      supportedLocales: const [Locale('es')],
+      theme: ThemeData(brightness: Brightness.light, useMaterial3: false),
+      darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: false),
       themeMode: _themeMode,
       routerConfig: _router,
     );
@@ -179,21 +173,15 @@ class _NavBarPageState extends State<NavBarPage> {
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.bar_chart_rounded,
-                size: 24.0,
-              ),
+              icon: Icon(Icons.bar_chart_rounded, size: 24.0),
               label: '•',
               tooltip: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.account_circle_outlined,
-                size: 24.0,
-              ),
+              icon: Icon(Icons.account_circle_outlined, size: 24.0),
               label: '•',
               tooltip: '',
-            )
+            ),
           ],
         ),
       ),
