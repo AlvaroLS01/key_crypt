@@ -45,6 +45,23 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
+// POST /register
+app.post('/register', async (req, res) => {
+  const { nombre, telefono, email, contrasena } = req.body;
+
+  try {
+    await pool.query(
+      'INSERT INTO usuarios (nombre, telefono, email, contraseña) VALUES (?, ?, ?, ?)',
+      [nombre, telefono, email, contrasena]
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Error al registrar usuario' });
+  }
+});
+
 // POST /login
 app.post('/login', async (req, res) => {
   // accept both `usuario` and `email` to be more robust

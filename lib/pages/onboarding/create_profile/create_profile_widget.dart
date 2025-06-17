@@ -449,7 +449,21 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                               0.0, 24.0, 0.0, 0.0),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              context.pushNamed(HomePageWidget.routeName);
+                              final success = await actions.registerUsuario(
+                                _model.yourNameTextController.text,
+                                _model.cityTextController1.text,
+                                _model.cityTextController2.text,
+                                _model.textController4.text,
+                              );
+                              if (success) {
+                                context.pushNamed(HomePageWidget.routeName);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Error al registrar usuario'),
+                                  ),
+                                );
+                              }
                             },
                             text: 'Registrar',
                             options: FFButtonOptions(
