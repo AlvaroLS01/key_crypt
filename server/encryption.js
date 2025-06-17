@@ -15,4 +15,15 @@ function cifrarTexto(texto) {
   return encrypted;
 }
 
+<<<<<<< f3eexs-codex/implementar-ruta-post-/passwords-en-node.js-con-express-y-my
+function descifrarTexto(encryptedTexto) {
+  const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
+  let decrypted = decipher.update(encryptedTexto, 'base64', 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+}
+
+module.exports = { cifrarTexto, descifrarTexto };
+=======
 module.exports = { cifrarTexto };
+>>>>>>> main
