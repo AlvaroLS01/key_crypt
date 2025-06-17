@@ -24,9 +24,14 @@ function cifrarTexto(texto) {
 
 function descifrarTexto(encryptedTexto) {
   const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
-  let decrypted = decipher.update(encryptedTexto, 'base64', 'utf8');
-  decrypted += decipher.final('utf8');
-  return decrypted;
+  try {
+    let decrypted = decipher.update(encryptedTexto, 'base64', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+  } catch (err) {
+    console.error('Error decrypting text:', err.message);
+    return null;
+  }
 }
 
 // Conexión BBDD
