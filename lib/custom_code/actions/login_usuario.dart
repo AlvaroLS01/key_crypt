@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 
 Future<bool> loginUsuario(String usuario, String contrasena) async {
   final response = await http.post(
-    Uri.parse('http://192.168.1.136:8000/login'),
+    Uri.parse('http://localhost:8000/login'),
     headers: {'Content-Type': 'application/json'},
     body: json.encode({
       // el backend espera la clave "email"

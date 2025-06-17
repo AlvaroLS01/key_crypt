@@ -348,8 +348,8 @@ class _SignInWidgetState extends State<SignInWidget> {
                                       onPressed: () async {
                                         _model.resultado =
                                             await actions.loginUsuario(
-                                          FFAppState().email,
-                                          FFAppState().contrasena,
+                                          _model.emailAddressTextController.text,
+                                          _model.passwordTextController.text,
                                         );
                                         if (_model.resultado == true) {
                                           context.pushNamed(
