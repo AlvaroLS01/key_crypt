@@ -209,9 +209,13 @@ class _SignInWidgetState extends State<SignInWidget> {
                                               !FlutterFlowTheme.of(context)
                                                   .bodyMediumIsCustom,
                                         ),
-                                    validator: _model
-                                        .emailAddressTextControllerValidator
-                                        .asValidator(context),
+                                    validator: (value) {
+                                      if (value == null ||
+                                          !actions.validarEmail(value)) {
+                                        return 'Email no valido';
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
                               ),

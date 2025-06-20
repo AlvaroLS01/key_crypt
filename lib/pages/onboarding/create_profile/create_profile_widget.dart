@@ -345,8 +345,13 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                                 useGoogleFonts: !FlutterFlowTheme.of(context)
                                     .bodyMediumIsCustom,
                               ),
-                          validator: _model.cityTextController2Validator
-                              .asValidator(context),
+                          validator: (value) {
+                            if (value == null ||
+                                !actions.validarEmail(value)) {
+                              return 'Email no valido';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
